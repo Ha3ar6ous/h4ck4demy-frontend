@@ -3,12 +3,18 @@ import { Link } from 'react-router-dom'
 import styles from './MCQGame.module.css'
 
 const MCQGame = () => {
+  // state for current question index
   const [currentQuestion, setCurrentQuestion] = useState(0)
+  // state to track total score
   const [score, setScore] = useState(0)
+  // state to track selected option for current question
   const [selectedAnswer, setSelectedAnswer] = useState(null)
+  // state to control display of correct/incorrect feedback
   const [showResult, setShowResult] = useState(false)
+  // state to know if all questions are completed
   const [gameCompleted, setGameCompleted] = useState(false)
 
+  // hardcoded questions - can be replaced with API data
   const questions = [
     {
       question:
@@ -46,10 +52,12 @@ const MCQGame = () => {
     },
   ]
 
+  // update selected answer when user clicks
   const handleAnswerSelect = (answerIndex) => {
     setSelectedAnswer(answerIndex)
   }
 
+  // checks answer, updates score if correct, and shows feedback
   const handleSubmitAnswer = () => {
     const isCorrect = selectedAnswer === questions[currentQuestion].correct
     if (isCorrect) {
@@ -58,6 +66,7 @@ const MCQGame = () => {
     setShowResult(true)
   }
 
+  // move to next question or complete game
   const handleNextQuestion = () => {
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1)
@@ -68,6 +77,7 @@ const MCQGame = () => {
     }
   }
 
+  // resets all state to restart game
   const restartGame = () => {
     setCurrentQuestion(0)
     setScore(0)
@@ -76,6 +86,7 @@ const MCQGame = () => {
     setGameCompleted(false)
   }
 
+  // game completed screen
   if (gameCompleted) {
     return (
       <div className={styles.mcqGame}>
@@ -119,6 +130,7 @@ const MCQGame = () => {
     )
   }
 
+  // percentage for progress bar
   const progressPercentage = ((currentQuestion + 1) / questions.length) * 100
 
   return (
@@ -128,6 +140,7 @@ const MCQGame = () => {
           <h1 className={styles.title}>
             MCQ <span className={styles.highlight}>Challenge</span>
           </h1>
+          {/* progress bar and score display */}
           <div className={styles.progress}>
             <div className={styles.progressInfo}>
               <span>
@@ -144,6 +157,7 @@ const MCQGame = () => {
           </div>
         </div>
 
+        {/* current question card */}
         <div className={styles.questionCard}>
           <div className={styles.questionHeader}>
             <span className={styles.questionNumber}>
@@ -158,6 +172,7 @@ const MCQGame = () => {
             {questions[currentQuestion].question}
           </h2>
 
+          {/* render options with conditional styling */}
           <div className={styles.options}>
             {questions[currentQuestion].options.map((option, index) => (
               <button
@@ -176,7 +191,7 @@ const MCQGame = () => {
                     : ''
                 }`}
                 onClick={() => handleAnswerSelect(index)}
-                disabled={showResult}
+                disabled={showResult} // disable after submitting
               >
                 <span className={styles.optionLetter}>
                   {String.fromCharCode(65 + index)}
@@ -190,16 +205,17 @@ const MCQGame = () => {
             {!showResult ? (
               <button
                 onClick={handleSubmitAnswer}
-                disabled={selectedAnswer === null}
+                disabled={selectedAnswer === null} // only allow submit if answered
                 className={styles.submitBtn}
               >
                 <span>Submit Answer</span>
               </button>
             ) : (
+              // show result feedback and next button
               <div className={styles.resultSection}>
                 <p className={styles.resultText}>
                   {selectedAnswer === questions[currentQuestion].correct
-                    ? `🎉 Correct! +${questions[currentQuestion].points} points`
+                    ? ` Correct! +${questions[currentQuestion].points} points`
                     : '❌ Incorrect! Try again next time.'}
                 </p>
                 <button onClick={handleNextQuestion} className={styles.nextBtn}>

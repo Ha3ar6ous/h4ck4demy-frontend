@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './Learn.module.css'
 
 const Learn = () => {
+  // state to track which topic is currently selected
   const [selectedTopic, setSelectedTopic] = useState('identity')
 
   const topics = {
@@ -107,6 +108,7 @@ const Learn = () => {
   return (
     <div className={styles.learn}>
       <div className={styles.container}>
+        {/* page header */}
         <header className={styles.header}>
           <h1 className={styles.title}>Learning Center</h1>
           <p className={styles.subtitle}>
@@ -115,12 +117,13 @@ const Learn = () => {
           </p>
         </header>
 
+        {/* topic selection buttons - updating state on click */}
         <nav className={styles.topicSelector}>
           <button
             className={`${styles.topicBtn} ${
               selectedTopic === 'identity' ? styles.active : ''
             }`}
-            onClick={() => setSelectedTopic('identity')}
+            onClick={() => setSelectedTopic('identity')} // sets state to identity
           >
             <span className={styles.topicIcon}></span>
             Safe Online Identity
@@ -129,18 +132,19 @@ const Learn = () => {
             className={`${styles.topicBtn} ${
               selectedTopic === 'browsing' ? styles.active : ''
             }`}
-            onClick={() => setSelectedTopic('browsing')}
+            onClick={() => setSelectedTopic('browsing')} // sets state to browsing
           >
             <span className={styles.topicIcon}></span>
             Safe Browsing
           </button>
         </nav>
 
+        {/* main content area */}
         <article className={styles.content}>
           <div className={styles.topicCard}>
             <div className={styles.articleHeader}>
               <img
-                src={topics[selectedTopic].image}
+                src={topics[selectedTopic].image} // dynamic image based on selected topic
                 alt={topics[selectedTopic].title}
                 className={styles.heroImage}
               />
@@ -155,10 +159,12 @@ const Learn = () => {
             </div>
 
             <div className={styles.articleBody}>
+              {/* introduction section */}
               <div className={styles.introduction}>
                 <p>{topics[selectedTopic].content.introduction}</p>
               </div>
 
+              {/* render all sections dynamically */}
               <div className={styles.sections}>
                 {topics[selectedTopic].content.sections.map(
                   (section, index) => (
@@ -168,7 +174,7 @@ const Learn = () => {
                       </h3>
                       <div className={styles.sectionContent}>
                         {section.content
-                          .split('\n\n')
+                          .split('\n\n') // split into paragraphs
                           .map((paragraph, pIndex) => (
                             <p key={pIndex}>{paragraph.trim()}</p>
                           ))}
@@ -178,6 +184,7 @@ const Learn = () => {
                 )}
               </div>
 
+              {/* conclusion / key takeaways */}
               <div className={styles.conclusion}>
                 <h3 className={styles.conclusionHeading}>Key Takeaways</h3>
                 <p>{topics[selectedTopic].content.conclusion}</p>

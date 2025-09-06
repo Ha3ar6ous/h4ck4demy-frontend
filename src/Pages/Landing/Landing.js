@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom'
 import styles from './Landing.module.css'
 import flagImg from '../../assets/images/indian-flag2.png'
 
-
 const Landing = () => {
   return (
     <div className={styles.landing}>
       <div className={styles.container}>
-        {/* Hero Section */}
+        {/* Hero Section - main intro */}
         <div className={styles.hero}>
           <div className={styles.brandSection}>
             <h1 className={styles.brandName}>
@@ -21,8 +20,7 @@ const Landing = () => {
           </div>
 
           <h2 className={styles.title}>
-            Making{' '}
-            <span className={styles.highlight}>Cybersecurity</span>
+            Making <span className={styles.highlight}>Cybersecurity</span>
             <br />
             Fun & Accessible for Everyone
           </h2>
@@ -33,6 +31,7 @@ const Landing = () => {
             with fellow citizens to build a safer digital India.
           </p>
 
+          {/* quick navigation buttons */}
           <div className={styles.cta}>
             <Link to='/learn' className={styles.learnBtn}>
               Learn
@@ -42,6 +41,7 @@ const Landing = () => {
             </Link>
           </div>
 
+          {/* realtime stats section */}
           <div className={styles.stats}>
             <div className={styles.stat}>
               <span className={styles.statNumber}>1.16B+</span>
@@ -71,10 +71,10 @@ const Landing = () => {
               </p>
             </div>
 
-            {/* Flag Section */}
+            {/* flag image + message */}
             <div className={styles.flagContainer}>
               <img
-                src={flagImg}
+                src={flagImg} // imported static asset
                 alt='Indian Flag'
                 className={styles.flagImage}
               />
@@ -85,7 +85,7 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* How It Works */}
+        {/* How It Works steps */}
         <div className={styles.howItWorks}>
           <h3 className={styles.sectionTitle}>How It Works</h3>
           <div className={styles.steps}>

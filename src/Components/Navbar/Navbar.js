@@ -3,10 +3,10 @@ import { Link, useLocation } from 'react-router-dom'
 import styles from './Navbar.module.css'
 
 const Navbar = () => {
-  const location = useLocation()
-  const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation() // hook to track current route
+  const [isOpen, setIsOpen] = useState(false) // toggle state for mobile menu
 
-  const isActive = (path) => location.pathname === path
+  const isActive = (path) => location.pathname === path // checks if link matches current route
 
   return (
     <nav className={styles.navbar}>
@@ -16,7 +16,7 @@ const Navbar = () => {
           <span className={styles.hackText}>4</span>demy
         </Link>
 
-        {/* Hamburger button */}
+        {/* button toggles menu visibility */}
         <button
           className={styles.menuToggle}
           onClick={() => setIsOpen(!isOpen)}
@@ -29,11 +29,11 @@ const Navbar = () => {
           </span>
         </button>
 
-        {/* Nav Links */}
+        {/* shows nav links, conditional class handles open/close */}
         <div className={`${styles.navLinks} ${isOpen ? styles.showMenu : ''}`}>
           <Link
             to='/'
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(false)} // closes menu when link clicked
             className={`${styles.navLink} ${
               isActive('/') ? styles.active : ''
             }`}

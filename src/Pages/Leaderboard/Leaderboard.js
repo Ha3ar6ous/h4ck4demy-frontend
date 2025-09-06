@@ -14,10 +14,10 @@ import {
 import styles from './Leaderboard.module.css'
 
 const Leaderboard = () => {
-  const [players, setPlayers] = useState([])
-  const [timeFrame, setTimeFrame] = useState('all')
+  const [players, setPlayers] = useState([]) // holds leaderboard players
+  const [timeFrame, setTimeFrame] = useState('all') // filter: all/month/week
 
-  // Dummy data - replace with API call when backend is ready
+  // mock API data - updates players on timeFrame change
   useEffect(() => {
     const dummyPlayers = [
       {
@@ -95,6 +95,7 @@ const Leaderboard = () => {
     setPlayers(dummyPlayers)
   }, [timeFrame])
 
+  // returns special icon for top 3 ranks
   const getRankIcon = (rank) => {
     switch (rank) {
       case 1:
@@ -108,6 +109,7 @@ const Leaderboard = () => {
     }
   }
 
+  // adds CSS class for podium colors
   const getRankClass = (rank) => {
     switch (rank) {
       case 1:
@@ -121,6 +123,7 @@ const Leaderboard = () => {
     }
   }
 
+  // calculates dashboard statistics from players array
   const calculateStats = () => {
     const totalPlayers = players.length
     const averageScore = Math.round(
@@ -129,7 +132,7 @@ const Leaderboard = () => {
     const topScore = players[0]?.score || 0
     const totalGames = players.reduce((sum, p) => sum + p.gamesPlayed, 0)
     const averageGames = Math.round(totalGames / players.length)
-    const activeToday = Math.floor(players.length * 0.3) // Mock calculation
+    const activeToday = Math.floor(players.length * 0.3) // mock active players today
 
     return {
       totalPlayers,
@@ -141,12 +144,12 @@ const Leaderboard = () => {
     }
   }
 
-  const stats = calculateStats()
+  const stats = calculateStats() // pre-calculate for rendering
 
   return (
     <div className={styles.leaderboard}>
       <div className={styles.container}>
-        {/* Header Section */}
+        {/* Header + time filters */}
         <div className={styles.header}>
           <h1 className={styles.title}>
             <span className={styles.titleAccent}>Leaderboard</span>
@@ -155,6 +158,7 @@ const Leaderboard = () => {
             Compete with the top cybersecurity learners and climb to the top
           </p>
 
+          {/* time filter buttons */}
           <div className={styles.filters}>
             <button
               className={`${styles.filterBtn} ${
@@ -183,8 +187,9 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {/* Dashboard Stats Grid */}
+        {/* Dashboard Stats */}
         <div className={styles.dashboardStats}>
+          {/* Each card shows a calculated stat */}
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
               <Users size={32} />
@@ -245,7 +250,7 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {/* Podium Section */}
+        {/* Top 3 Podium */}
         <div className={styles.podiumSection}>
           <h2 className={styles.sectionTitle}>Top 3 Champions</h2>
           <div className={styles.podium}>
@@ -269,7 +274,7 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {/* Rankings Table */}
+        {/* Full Rankings Table */}
         <div className={styles.tableSection}>
           <h2 className={styles.sectionTitle}>Complete Rankings</h2>
           <div className={styles.rankingTable}>
@@ -310,7 +315,7 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action buttons */}
         <div className={styles.actions}>
           <Link to='/login' className={styles.playBtn}>
             <span className={styles.btnText}>Start Playing</span>

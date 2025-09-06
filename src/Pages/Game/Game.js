@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styles from './Game.module.css'
 
 const Game = () => {
+  // array holds all game types and their metadata
   const gameTypes = [
     {
       id: 'mcq',
@@ -44,11 +45,12 @@ const Game = () => {
         </div>
 
         <div className={styles.gameGrid}>
+          {/* mapping over gameTypes to render each game card */}
           {gameTypes.map((game, index) => (
             <div
               key={game.id}
               className={styles.gameCard}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ animationDelay: `${index * 0.1}s` }} // staggered animation
             >
               <div className={styles.cardHeader}>
                 <div className={styles.gameIcon}>{game.icon}</div>
@@ -86,6 +88,7 @@ const Game = () => {
                 </div>
               </div>
 
+              {/* link navigates user to selected game route */}
               <Link to={game.route} className={styles.playBtn}>
                 <span>Start Challenge</span>
                 <svg
@@ -113,6 +116,7 @@ const Game = () => {
             <div className={styles.statHeader}>
               <h4 className={styles.statTitle}>Your Progress</h4>
               <div className={styles.progressRing}>
+                {/* svg circles act as progress indicator */}
                 <svg className={styles.progressCircle} width='40' height='40'>
                   <circle
                     cx='20'

@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom'
 import styles from './SituationalGame.module.css'
 
 const SituationalGame = () => {
+  // state for current scenario
   const [currentScenario, setCurrentScenario] = useState(0)
+  // state for total score
   const [score, setScore] = useState(0)
+  // currently dragged item
   const [draggedItem, setDraggedItem] = useState(null)
+  // tracks which items are dropped in which zones
   const [droppedItems, setDroppedItems] = useState({})
+  // whether all scenarios are completed
   const [gameCompleted, setGameCompleted] = useState(false)
+  // whether results of current scenario are shown
   const [showResult, setShowResult] = useState(false)
+  // highlights the drop zone being hovered
   const [dragOverZone, setDragOverZone] = useState(null)
 
+  // scenarios data (can be extended or fetched from API)
   const scenarios = [
     {
       title: 'Email Security Scenario',
@@ -66,14 +74,13 @@ const SituationalGame = () => {
     },
   ]
 
-  const handleDragStart = (e, item) => {
-    setDraggedItem(item)
-  }
+  // set dragged item when drag starts
+  const handleDragStart = (e, item) => setDraggedItem(item)
 
-  const handleDragOver = (e) => {
-    e.preventDefault()
-  }
+  // allow dropping
+  const handleDragOver = (e) => e.preventDefault()
 
+  // track which drop zone is being hovered
   const handleDragEnter = (e, zoneId) => {
     e.preventDefault()
     setDragOverZone(zoneId)
@@ -84,18 +91,17 @@ const SituationalGame = () => {
     setDragOverZone(null)
   }
 
+  // handle dropping item into zone
   const handleDrop = (e, zoneId) => {
     e.preventDefault()
     if (draggedItem) {
-      setDroppedItems({
-        ...droppedItems,
-        [draggedItem.id]: zoneId,
-      })
+      setDroppedItems({ ...droppedItems, [draggedItem.id]: zoneId })
       setDraggedItem(null)
     }
     setDragOverZone(null)
   }
 
+  // check user's dropped items and calculate points
   const checkAnswers = () => {
     const scenario = scenarios[currentScenario]
     let correct = 0
@@ -104,9 +110,7 @@ const SituationalGame = () => {
       const correctZone = scenario.zones.find((zone) =>
         zone.acceptedTypes.includes(item.type)
       )
-      if (droppedZone === correctZone.id) {
-        correct++
-      }
+      if (droppedZone === correctZone.id) correct++
     })
     const earnedPoints = Math.floor(
       (correct / scenario.items.length) * scenario.points
@@ -115,6 +119,7 @@ const SituationalGame = () => {
     setShowResult(true)
   }
 
+  // go to next scenario or finish game
   const nextScenario = () => {
     if (currentScenario + 1 < scenarios.length) {
       setCurrentScenario(currentScenario + 1)
@@ -125,6 +130,7 @@ const SituationalGame = () => {
     }
   }
 
+  // restart game from scratch
   const restartGame = () => {
     setCurrentScenario(0)
     setScore(0)
@@ -133,6 +139,7 @@ const SituationalGame = () => {
     setShowResult(false)
   }
 
+  // render final score screen if all scenarios completed
   if (gameCompleted) {
     return (
       <div className={styles.situationalGame}>
@@ -174,7 +181,9 @@ const SituationalGame = () => {
     )
   }
 
+  // current scenario data
   const currentScenarioData = scenarios[currentScenario]
+  // check if all items have been dropped
   const allItemsDropped = currentScenarioData.items.every(
     (item) => droppedItems[item.id]
   )
@@ -187,6 +196,7 @@ const SituationalGame = () => {
           <h1 className={styles.title}>
             Situational <span className={styles.highlight}>Challenge</span>
           </h1>
+          {/* progress bar and score */}
           <div className={styles.progress}>
             <div className={styles.progressInfo}>
               <span>
@@ -203,6 +213,7 @@ const SituationalGame = () => {
           </div>
         </div>
 
+        {/* scenario card with items and drop zones */}
         <div className={styles.scenarioCard}>
           <div className={styles.scenarioHeader}>
             <span className={styles.scenarioNumber}>
@@ -219,10 +230,10 @@ const SituationalGame = () => {
           </p>
 
           <div className={styles.gameArea}>
+            {/* draggable items bank */}
             <div className={styles.itemsBank}>
               <h3 className={styles.bankTitle}>
-                <span className={styles.dragIcon}>🎯</span>
-                Drag these items
+                <span className={styles.dragIcon}>🎯</span> Drag these items
               </h3>
               <div className={styles.items}>
                 {currentScenarioData.items.map(
@@ -244,6 +255,7 @@ const SituationalGame = () => {
               </div>
             </div>
 
+            {/* drop zones */}
             <div className={styles.dropZones}>
               {currentScenarioData.zones.map((zone) => (
                 <div
@@ -287,6 +299,7 @@ const SituationalGame = () => {
             </div>
           </div>
 
+          {/* action buttons */}
           <div className={styles.actions}>
             {!showResult ? (
               <button
