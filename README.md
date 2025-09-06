@@ -14,7 +14,7 @@ College ka miniproject hai isliye bana rha hu, thats it :(
 
 ## 🌐 View Live
 
-[Experience H4ck4demy Live](https://your-deployment-link.com)
+[Experience H4ck4demy Live](https://h4ck4demy-frontend.vercel.app/)
 
 ---
 
