@@ -8,12 +8,14 @@ import Game from './Pages/Game/Game'
 import MCQGame from './Pages/Game/MCQGame/MCQGame'
 import SituationalGame from './Pages/Game/SituationalGame/SituationalGame'
 import Leaderboard from './Pages/Leaderboard/Leaderboard'
+import ScrollToTop from './Components/ScrollToTop' // <-- import it
 import './App.css'
 
 function App() {
   return (
     <Router>
       <Layout>
+        <ScrollToTop /> {/* <-- add here */}
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/login' element={<Login />} />
