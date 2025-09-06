@@ -7,16 +7,13 @@ The purpose of H4ck4demy is to empower users especially in India : with practica
 - Teach password hygiene, safe browsing, and digital identity protection.
 - Encourage healthy competition and continuous learning through leaderboards and achievements.
 
-## Real Purpose 
+### Real Purpose 
 College ka miniproject hai isliye bana rha hu, thats it :(
 
 ---
 
-## 🌐 View Live
+## 🌐 View Live : [Experience H4ck4demy Live](https://h4ck4demy-frontend.vercel.app/)
 
-[Experience H4ck4demy Live](https://h4ck4demy-frontend.vercel.app/)
-
----
 
 ##  Project Structure
 ```
