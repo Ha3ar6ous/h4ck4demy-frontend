@@ -15,12 +15,16 @@ const Login = () => {
     <div className={styles.login}>
       <div className={styles.container}>
         <div className={styles.loginCard}>
-          <h1 className={styles.title}>Enter Your Username</h1>
-          <p className={styles.subtitle}>Join the cybersecurity challenge!</p>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Enter Your Username</h1>
+            <p className={styles.subtitle}>Join the cybersecurity challenge!</p>
+          </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
-              <label htmlFor='username'>Username</label>
+              <label htmlFor='username' className={styles.label}>
+                Username
+              </label>
               <input
                 type='text'
                 id='username'
@@ -32,18 +36,20 @@ const Login = () => {
             </div>
 
             <button type='submit' className={styles.submitBtn}>
-              Start Playing
+              <span>Start Playing</span>
             </button>
           </form>
 
           <div className={styles.quickAccess}>
-            <p>Quick Access (No Auth Required):</p>
+            <p className={styles.quickAccessTitle}>
+              Quick Access (No Auth Required):
+            </p>
             <div className={styles.quickLinks}>
               <Link to='/game' className={styles.quickLink}>
-                Go to Games
+                <span>Go to Games</span>
               </Link>
               <Link to='/leaderboard' className={styles.quickLink}>
-                View Leaderboard
+                <span>View Leaderboard</span>
               </Link>
             </div>
           </div>

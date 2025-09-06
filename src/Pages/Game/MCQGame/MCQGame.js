@@ -81,21 +81,36 @@ const MCQGame = () => {
       <div className={styles.mcqGame}>
         <div className={styles.container}>
           <div className={styles.resultCard}>
-            <h1 className={styles.title}>Game Complete!</h1>
+            <h1 className={styles.title}>
+              Challenge <span className={styles.highlight}>Complete!</span>
+            </h1>
             <div className={styles.finalScore}>
-              <h2>Your Final Score: {score}</h2>
-              <p>Questions Answered: {questions.length}</p>
-              <p>Correct Answers: {Math.floor(score / 10)}</p>
+              <div className={styles.scoreDisplay}>
+                <span className={styles.scoreValue}>{score}</span>
+                <span className={styles.scoreLabel}>Final Score</span>
+              </div>
+              <div className={styles.statsGrid}>
+                <div className={styles.statItem}>
+                  <span className={styles.statValue}>{questions.length}</span>
+                  <span className={styles.statLabel}>Questions</span>
+                </div>
+                <div className={styles.statItem}>
+                  <span className={styles.statValue}>
+                    {Math.floor(score / 10)}
+                  </span>
+                  <span className={styles.statLabel}>Correct</span>
+                </div>
+              </div>
             </div>
             <div className={styles.actions}>
               <button onClick={restartGame} className={styles.playAgainBtn}>
-                Play Again
+                <span>Play Again</span>
               </button>
               <Link to='/game' className={styles.backBtn}>
-                Back to Games
+                <span>Back to Games</span>
               </Link>
               <Link to='/leaderboard' className={styles.leaderboardBtn}>
-                View Leaderboard
+                <span>View Leaderboard</span>
               </Link>
             </div>
           </div>
@@ -104,20 +119,41 @@ const MCQGame = () => {
     )
   }
 
+  const progressPercentage = ((currentQuestion + 1) / questions.length) * 100
+
   return (
     <div className={styles.mcqGame}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>MCQ Challenge</h1>
+          <h1 className={styles.title}>
+            MCQ <span className={styles.highlight}>Challenge</span>
+          </h1>
           <div className={styles.progress}>
-            <span>
-              Question {currentQuestion + 1} of {questions.length}
-            </span>
-            <span>Score: {score}</span>
+            <div className={styles.progressInfo}>
+              <span>
+                Question {currentQuestion + 1} of {questions.length}
+              </span>
+              <span className={styles.score}>Score: {score}</span>
+            </div>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
         <div className={styles.questionCard}>
+          <div className={styles.questionHeader}>
+            <span className={styles.questionNumber}>
+              Q{currentQuestion + 1}
+            </span>
+            <span className={styles.points}>
+              +{questions[currentQuestion].points} pts
+            </span>
+          </div>
+
           <h2 className={styles.question}>
             {questions[currentQuestion].question}
           </h2>
@@ -142,7 +178,10 @@ const MCQGame = () => {
                 onClick={() => handleAnswerSelect(index)}
                 disabled={showResult}
               >
-                {option}
+                <span className={styles.optionLetter}>
+                  {String.fromCharCode(65 + index)}
+                </span>
+                <span className={styles.optionText}>{option}</span>
               </button>
             ))}
           </div>
@@ -154,19 +193,30 @@ const MCQGame = () => {
                 disabled={selectedAnswer === null}
                 className={styles.submitBtn}
               >
-                Submit Answer
+                <span>Submit Answer</span>
               </button>
             ) : (
               <div className={styles.resultSection}>
                 <p className={styles.resultText}>
                   {selectedAnswer === questions[currentQuestion].correct
-                    ? `Correct! +${questions[currentQuestion].points} points`
-                    : 'Incorrect! Try again next time.'}
+                    ? `🎉 Correct! +${questions[currentQuestion].points} points`
+                    : '❌ Incorrect! Try again next time.'}
                 </p>
                 <button onClick={handleNextQuestion} className={styles.nextBtn}>
-                  {currentQuestion + 1 < questions.length
-                    ? 'Next Question'
-                    : 'Finish Game'}
+                  <span>
+                    {currentQuestion + 1 < questions.length
+                      ? 'Next Question'
+                      : 'Finish Game'}
+                  </span>
+                  <svg width='16' height='16' viewBox='0 0 24 24' fill='none'>
+                    <path
+                      d='M5 12H19M19 12L12 5M19 12L12 19'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
                 </button>
               </div>
             )}

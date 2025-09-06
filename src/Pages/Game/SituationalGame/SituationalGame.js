@@ -9,6 +9,7 @@ const SituationalGame = () => {
   const [droppedItems, setDroppedItems] = useState({})
   const [gameCompleted, setGameCompleted] = useState(false)
   const [showResult, setShowResult] = useState(false)
+  const [dragOverZone, setDragOverZone] = useState(null)
 
   const scenarios = [
     {
@@ -22,8 +23,18 @@ const SituationalGame = () => {
         { id: 4, text: 'Enter your password in the email', type: 'bad' },
       ],
       zones: [
-        { id: 'safe', label: 'Safe Actions', acceptedTypes: ['good'] },
-        { id: 'unsafe', label: 'Unsafe Actions', acceptedTypes: ['bad'] },
+        {
+          id: 'safe',
+          label: 'Safe Actions',
+          acceptedTypes: ['good'],
+          color: '#4CAF50',
+        },
+        {
+          id: 'unsafe',
+          label: 'Unsafe Actions',
+          acceptedTypes: ['bad'],
+          color: '#f44336',
+        },
       ],
       points: 25,
     },
@@ -38,11 +49,17 @@ const SituationalGame = () => {
         { id: 4, text: 'Enter credit card details', type: 'bad' },
       ],
       zones: [
-        { id: 'safe', label: 'Safe on Public Wi-Fi', acceptedTypes: ['good'] },
+        {
+          id: 'safe',
+          label: 'Safe on Public Wi-Fi',
+          acceptedTypes: ['good'],
+          color: '#4CAF50',
+        },
         {
           id: 'unsafe',
           label: 'Avoid on Public Wi-Fi',
           acceptedTypes: ['bad'],
+          color: '#f44336',
         },
       ],
       points: 30,
@@ -57,6 +74,16 @@ const SituationalGame = () => {
     e.preventDefault()
   }
 
+  const handleDragEnter = (e, zoneId) => {
+    e.preventDefault()
+    setDragOverZone(zoneId)
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    setDragOverZone(null)
+  }
+
   const handleDrop = (e, zoneId) => {
     e.preventDefault()
     if (draggedItem) {
@@ -66,23 +93,21 @@ const SituationalGame = () => {
       })
       setDraggedItem(null)
     }
+    setDragOverZone(null)
   }
 
   const checkAnswers = () => {
     const scenario = scenarios[currentScenario]
     let correct = 0
-
     scenario.items.forEach((item) => {
       const droppedZone = droppedItems[item.id]
       const correctZone = scenario.zones.find((zone) =>
         zone.acceptedTypes.includes(item.type)
       )
-
       if (droppedZone === correctZone.id) {
         correct++
       }
     })
-
     const earnedPoints = Math.floor(
       (correct / scenario.items.length) * scenario.points
     )
@@ -113,20 +138,34 @@ const SituationalGame = () => {
       <div className={styles.situationalGame}>
         <div className={styles.container}>
           <div className={styles.resultCard}>
-            <h1 className={styles.title}>Scenarios Complete!</h1>
+            <h1 className={styles.title}>
+              Scenarios <span className={styles.highlight}>Complete!</span>
+            </h1>
             <div className={styles.finalScore}>
-              <h2>Your Final Score: {score}</h2>
-              <p>Scenarios Completed: {scenarios.length}</p>
+              <div className={styles.scoreDisplay}>
+                <span className={styles.scoreValue}>{score}</span>
+                <span className={styles.scoreLabel}>Final Score</span>
+              </div>
+              <div className={styles.statsGrid}>
+                <div className={styles.statItem}>
+                  <span className={styles.statValue}>{scenarios.length}</span>
+                  <span className={styles.statLabel}>Scenarios</span>
+                </div>
+                <div className={styles.statItem}>
+                  <span className={styles.statValue}>100%</span>
+                  <span className={styles.statLabel}>Complete</span>
+                </div>
+              </div>
             </div>
             <div className={styles.actions}>
               <button onClick={restartGame} className={styles.playAgainBtn}>
-                Play Again
+                <span>Play Again</span>
               </button>
               <Link to='/game' className={styles.backBtn}>
-                Back to Games
+                <span>Back to Games</span>
               </Link>
               <Link to='/leaderboard' className={styles.leaderboardBtn}>
-                View Leaderboard
+                <span>View Leaderboard</span>
               </Link>
             </div>
           </div>
@@ -139,21 +178,41 @@ const SituationalGame = () => {
   const allItemsDropped = currentScenarioData.items.every(
     (item) => droppedItems[item.id]
   )
+  const progressPercentage = ((currentScenario + 1) / scenarios.length) * 100
 
   return (
     <div className={styles.situationalGame}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Situational Challenge</h1>
+          <h1 className={styles.title}>
+            Situational <span className={styles.highlight}>Challenge</span>
+          </h1>
           <div className={styles.progress}>
-            <span>
-              Scenario {currentScenario + 1} of {scenarios.length}
-            </span>
-            <span>Score: {score}</span>
+            <div className={styles.progressInfo}>
+              <span>
+                Scenario {currentScenario + 1} of {scenarios.length}
+              </span>
+              <span className={styles.score}>Score: {score}</span>
+            </div>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
         <div className={styles.scenarioCard}>
+          <div className={styles.scenarioHeader}>
+            <span className={styles.scenarioNumber}>
+              S{currentScenario + 1}
+            </span>
+            <span className={styles.points}>
+              +{currentScenarioData.points} pts max
+            </span>
+          </div>
+
           <h2 className={styles.scenarioTitle}>{currentScenarioData.title}</h2>
           <p className={styles.scenarioDescription}>
             {currentScenarioData.description}
@@ -161,18 +220,24 @@ const SituationalGame = () => {
 
           <div className={styles.gameArea}>
             <div className={styles.itemsBank}>
-              <h3>Drag these items:</h3>
+              <h3 className={styles.bankTitle}>
+                <span className={styles.dragIcon}>🎯</span>
+                Drag these items
+              </h3>
               <div className={styles.items}>
                 {currentScenarioData.items.map(
                   (item) =>
                     !droppedItems[item.id] && (
                       <div
                         key={item.id}
-                        className={styles.item}
+                        className={`${styles.item} ${
+                          draggedItem?.id === item.id ? styles.dragging : ''
+                        }`}
                         draggable
                         onDragStart={(e) => handleDragStart(e, item)}
                       >
-                        {item.text}
+                        <span className={styles.dragHandle}>⋮⋮</span>
+                        <span className={styles.itemText}>{item.text}</span>
                       </div>
                     )
                 )}
@@ -183,19 +248,39 @@ const SituationalGame = () => {
               {currentScenarioData.zones.map((zone) => (
                 <div
                   key={zone.id}
-                  className={styles.dropZone}
+                  className={`${styles.dropZone} ${
+                    dragOverZone === zone.id ? styles.dragOver : ''
+                  }`}
                   onDragOver={handleDragOver}
+                  onDragEnter={(e) => handleDragEnter(e, zone.id)}
+                  onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, zone.id)}
+                  style={{ '--zone-color': zone.color }}
                 >
-                  <h4>{zone.label}</h4>
+                  <div className={styles.zoneHeader}>
+                    <h4 className={styles.zoneTitle}>{zone.label}</h4>
+                    <span className={styles.itemCount}>
+                      {
+                        currentScenarioData.items.filter(
+                          (item) => droppedItems[item.id] === zone.id
+                        ).length
+                      }
+                    </span>
+                  </div>
                   <div className={styles.droppedItems}>
                     {currentScenarioData.items
                       .filter((item) => droppedItems[item.id] === zone.id)
                       .map((item) => (
                         <div key={item.id} className={styles.droppedItem}>
+                          <span className={styles.checkIcon}>✓</span>
                           {item.text}
                         </div>
                       ))}
+                    {currentScenarioData.items.filter(
+                      (item) => droppedItems[item.id] === zone.id
+                    ).length === 0 && (
+                      <div className={styles.emptyZone}>Drop items here</div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -209,17 +294,28 @@ const SituationalGame = () => {
                 disabled={!allItemsDropped}
                 className={styles.checkBtn}
               >
-                Check Answers
+                <span>Check Answers</span>
               </button>
             ) : (
               <div className={styles.resultSection}>
                 <p className={styles.resultText}>
-                  Scenario completed! Points earned this round.
+                  🎉 Scenario completed! Points earned this round.
                 </p>
                 <button onClick={nextScenario} className={styles.nextBtn}>
-                  {currentScenario + 1 < scenarios.length
-                    ? 'Next Scenario'
-                    : 'Finish Game'}
+                  <span>
+                    {currentScenario + 1 < scenarios.length
+                      ? 'Next Scenario'
+                      : 'Finish Game'}
+                  </span>
+                  <svg width='16' height='16' viewBox='0 0 24 24' fill='none'>
+                    <path
+                      d='M5 12H19M19 12L12 5M19 12L12 19'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
                 </button>
               </div>
             )}

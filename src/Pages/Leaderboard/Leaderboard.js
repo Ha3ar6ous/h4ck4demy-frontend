@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  Users,
+  Target,
+  Trophy,
+  Gamepad2,
+  BarChart3,
+  Flame,
+  Medal,
+  Award,
+  Crown,
+} from 'lucide-react'
 import styles from './Leaderboard.module.css'
 
 const Leaderboard = () => {
@@ -87,11 +98,11 @@ const Leaderboard = () => {
   const getRankIcon = (rank) => {
     switch (rank) {
       case 1:
-        return '🥇'
+        return <Crown className={styles.iconGold} size={24} />
       case 2:
-        return '🥈'
+        return <Award className={styles.iconSilver} size={24} />
       case 3:
-        return '🥉'
+        return <Medal className={styles.iconBronze} size={24} />
       default:
         return `#${rank}`
     }
@@ -110,12 +121,39 @@ const Leaderboard = () => {
     }
   }
 
+  const calculateStats = () => {
+    const totalPlayers = players.length
+    const averageScore = Math.round(
+      players.reduce((sum, p) => sum + p.score, 0) / players.length
+    )
+    const topScore = players[0]?.score || 0
+    const totalGames = players.reduce((sum, p) => sum + p.gamesPlayed, 0)
+    const averageGames = Math.round(totalGames / players.length)
+    const activeToday = Math.floor(players.length * 0.3) // Mock calculation
+
+    return {
+      totalPlayers,
+      averageScore,
+      topScore,
+      totalGames,
+      averageGames,
+      activeToday,
+    }
+  }
+
+  const stats = calculateStats()
+
   return (
     <div className={styles.leaderboard}>
       <div className={styles.container}>
+        {/* Header Section */}
         <div className={styles.header}>
-          <h1 className={styles.title}>Leaderboard</h1>
-          <p className={styles.subtitle}>Top cybersecurity champions</p>
+          <h1 className={styles.title}>
+            <span className={styles.titleAccent}>Leaderboard</span>
+          </h1>
+          <p className={styles.subtitle}>
+            Compete with the top cybersecurity learners and climb to the top
+          </p>
 
           <div className={styles.filters}>
             <button
@@ -145,80 +183,143 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        <div className={styles.podium}>
-          {players.slice(0, 3).map((player, index) => (
-            <div
-              key={player.id}
-              className={`${styles.podiumPlace} ${getRankClass(index + 1)}`}
-            >
-              <div className={styles.podiumRank}>{getRankIcon(index + 1)}</div>
-              <div className={styles.podiumPlayer}>
-                <h3>{player.username}</h3>
-                <p className={styles.podiumScore}>{player.score} pts</p>
-              </div>
+        {/* Dashboard Stats Grid */}
+        <div className={styles.dashboardStats}>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <Users size={32} />
             </div>
-          ))}
-        </div>
-
-        <div className={styles.rankingTable}>
-          <div className={styles.tableHeader}>
-            <div className={styles.rank}>Rank</div>
-            <div className={styles.player}>Player</div>
-            <div className={styles.score}>Score</div>
-            <div className={styles.games}>Games</div>
-            <div className={styles.lastPlayed}>Last Played</div>
+            <div className={styles.statInfo}>
+              <h3>Total Players</h3>
+              <p className={styles.statValue}>
+                {stats.totalPlayers.toLocaleString()}
+              </p>
+            </div>
           </div>
-
-          {players.map((player, index) => (
-            <div
-              key={player.id}
-              className={`${styles.tableRow} ${getRankClass(index + 1)}`}
-            >
-              <div className={styles.rank}>
-                <span className={styles.rankNumber}>
-                  {getRankIcon(index + 1)}
-                </span>
-              </div>
-              <div className={styles.player}>
-                <span className={styles.username}>{player.username}</span>
-              </div>
-              <div className={styles.score}>
-                <span className={styles.scoreValue}>{player.score}</span>
-              </div>
-              <div className={styles.games}>{player.gamesPlayed}</div>
-              <div className={styles.lastPlayed}>
-                {new Date(player.lastPlayed).toLocaleDateString()}
-              </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <Target size={32} />
             </div>
-          ))}
+            <div className={styles.statInfo}>
+              <h3>Average Score</h3>
+              <p className={styles.statValue}>{stats.averageScore}</p>
+            </div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <Trophy size={32} />
+            </div>
+            <div className={styles.statInfo}>
+              <h3>Top Score</h3>
+              <p className={styles.statValue}>{stats.topScore}</p>
+            </div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <Gamepad2 size={32} />
+            </div>
+            <div className={styles.statInfo}>
+              <h3>Games Played</h3>
+              <p className={styles.statValue}>
+                {stats.totalGames.toLocaleString()}
+              </p>
+            </div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <BarChart3 size={32} />
+            </div>
+            <div className={styles.statInfo}>
+              <h3>Avg Games/Player</h3>
+              <p className={styles.statValue}>{stats.averageGames}</p>
+            </div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}>
+              <Flame size={32} />
+            </div>
+            <div className={styles.statInfo}>
+              <h3>Active Today</h3>
+              <p className={styles.statValue}>{stats.activeToday}</p>
+            </div>
+          </div>
         </div>
 
+        {/* Podium Section */}
+        <div className={styles.podiumSection}>
+          <h2 className={styles.sectionTitle}>Top 3 Champions</h2>
+          <div className={styles.podium}>
+            {players.slice(0, 3).map((player, index) => (
+              <div
+                key={player.id}
+                className={`${styles.podiumPlace} ${getRankClass(index + 1)}`}
+              >
+                <div className={styles.podiumRank}>
+                  {getRankIcon(index + 1)}
+                </div>
+                <div className={styles.podiumPlayer}>
+                  <h3>{player.username}</h3>
+                  <p className={styles.podiumScore}>{player.score} pts</p>
+                  <span className={styles.podiumGames}>
+                    {player.gamesPlayed} games
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rankings Table */}
+        <div className={styles.tableSection}>
+          <h2 className={styles.sectionTitle}>Complete Rankings</h2>
+          <div className={styles.rankingTable}>
+            <div className={styles.tableHeader}>
+              <div className={styles.rank}>Rank</div>
+              <div className={styles.player}>Player</div>
+              <div className={styles.score}>Score</div>
+              <div className={styles.games}>Games</div>
+              <div className={styles.lastPlayed}>Last Active</div>
+            </div>
+
+            {players.map((player, index) => (
+              <div
+                key={player.id}
+                className={`${styles.tableRow} ${getRankClass(index + 1)}`}
+              >
+                <div className={styles.rank}>
+                  <span className={styles.rankNumber}>
+                    {getRankIcon(index + 1)}
+                  </span>
+                </div>
+                <div className={styles.player}>
+                  <span className={styles.username}>{player.username}</span>
+                </div>
+                <div className={styles.score}>
+                  <span className={styles.scoreValue}>{player.score}</span>
+                </div>
+                <div className={styles.games}>
+                  <span className={styles.gamesValue}>
+                    {player.gamesPlayed}
+                  </span>
+                </div>
+                <div className={styles.lastPlayed}>
+                  {new Date(player.lastPlayed).toLocaleDateString('en-IN')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
         <div className={styles.actions}>
-          <Link to='/game' className={styles.playBtn}>
-            Play Games
+          <Link to='/login' className={styles.playBtn}>
+            <span className={styles.btnText}>Start Playing</span>
+            <span className={styles.btnShine}></span>
           </Link>
           <Link to='/learn' className={styles.learnBtn}>
-            Learn More
+            <span className={styles.btnText}>Learn First</span>
+            <span className={styles.btnShine}></span>
           </Link>
-        </div>
-
-        <div className={styles.stats}>
-          <div className={styles.statCard}>
-            <h3>Total Players</h3>
-            <p className={styles.statValue}>{players.length}</p>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Average Score</h3>
-            <p className={styles.statValue}>
-              {Math.round(
-                players.reduce((sum, p) => sum + p.score, 0) / players.length
-              )}
-            </p>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Top Score</h3>
-            <p className={styles.statValue}>{players[0]?.score || 0}</p>
-          </div>
         </div>
       </div>
     </div>

@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
 .situationalGame {
-    padding: 40px 0;
+    padding: 60px 0;
     min-height: 100vh;
+    background: linear-gradient(135deg, #0A0B1E 0%, #1A1B3B 100%);
+    font-family: 'Inter', sans-serif;
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
+    animation: fadeIn 0.6s ease-out;
 }
 
 .header {
@@ -15,115 +20,264 @@
 }
 
 .title {
-    color: #8E24AA;
+    color: #ffffff;
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.highlight {
+    background: linear-gradient(135deg, #8E24AA 0%, #AB47BC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .progress {
+    background: linear-gradient(145deg, #2A2458 0%, #1F1E3F 100%);
+    border: 1px solid rgba(142, 36, 170, 0.2);
+    padding: 20px 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.progressInfo {
     display: flex;
     justify-content: space-between;
-    background-color: #302A6A;
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.score {
+    font-family: 'JetBrains Mono', monospace;
+    color: #8E24AA;
+    font-weight: 600;
+}
+
+.progressBar {
+    background: rgba(255, 255, 255, 0.1);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progressFill {
+    background: linear-gradient(90deg, #8E24AA 0%, #AB47BC 100%);
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
 }
 
 .scenarioCard {
-    background-color: #302A6A;
-    padding: 40px;
-    border-radius: 16px;
+    background: linear-gradient(145deg, #2A2458 0%, #1F1E3F 100%);
+    border: 1px solid rgba(142, 36, 170, 0.2);
+    padding: 32px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.5s ease-out;
+}
+
+.scenarioHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.scenarioNumber {
+    background: rgba(142, 36, 170, 0.2);
+    color: #8E24AA;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.points {
+    color: #4CAF50;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .scenarioTitle {
-    color: #8E24AA;
+    color: #ffffff;
     font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
     text-align: center;
 }
 
 .scenarioDescription {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
     font-size: 1.1rem;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
 }
 
 .gameArea {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 30px;
-    margin-bottom: 30px;
+    grid-template-columns: 350px 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
 }
 
-.itemsBank h3 {
+.itemsBank {
+    background: rgba(26, 27, 59, 0.5);
+    border: 1px solid rgba(142, 36, 170, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.bankTitle {
     color: #8E24AA;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dragIcon {
+    font-size: 1.2rem;
 }
 
 .items {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .item {
-    background-color: #1A1B3B;
-    padding: 12px 15px;
-    border-radius: 8px;
-    cursor: grab;
+    background: #1A1B3B;
     border: 2px solid transparent;
-    transition: all 0.3s ease;
+    padding: 16px;
+    border-radius: 12px;
+    cursor: grab;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    position: relative;
+    overflow: hidden;
 }
 
 .item:hover {
     border-color: #8E24AA;
-    transform: translateX(5px);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.item:active {
+.item:active,
+.item.dragging {
     cursor: grabbing;
+    opacity: 0.8;
+    transform: rotate(2deg) scale(1.02);
+}
+
+.dragHandle {
+    color: #8E24AA;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+.itemText {
+    flex: 1;
+    line-height: 1.4;
 }
 
 .dropZones {
     display: flex;
-    gap: 20px;
+    gap: 24px;
 }
 
 .dropZone {
     flex: 1;
-    background-color: #1A1B3B;
-    border: 2px dashed #666;
-    border-radius: 12px;
+    background: rgba(26, 27, 59, 0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
     padding: 20px;
-    min-height: 200px;
-    transition: all 0.3s ease;
+    min-height: 220px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
-.dropZone:hover {
-    border-color: #8E24AA;
+.dropZone:hover,
+.dropZone.dragOver {
+    border-color: var(--zone-color, #8E24AA);
+    background: rgba(142, 36, 170, 0.1);
+    transform: scale(1.02);
 }
 
-.dropZone h4 {
-    color: #8E24AA;
-    text-align: center;
-    margin-bottom: 15px;
+.zoneHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zoneTitle {
+    color: var(--zone-color, #8E24AA);
     font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.itemCount {
+    background: var(--zone-color, #8E24AA);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .droppedItems {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .droppedItem {
-    background-color: #302A6A;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border-left: 4px solid #8E24AA;
+    background: rgba(142, 36, 170, 0.2);
+    border: 1px solid rgba(142, 36, 170, 0.3);
+    padding: 12px 16px;
+    border-radius: 8px;
     font-size: 0.9rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.checkIcon {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.emptyZone {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    padding: 40px 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin-top: 20px;
 }
 
 .actions {
@@ -135,65 +289,194 @@
 .playAgainBtn,
 .backBtn,
 .leaderboardBtn {
-    background-color: #8E24AA;
+    background: linear-gradient(135deg, #8E24AA 0%, #AB47BC 100%);
     color: white;
     border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
+    padding: 14px 28px;
+    border-radius: 12px;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    display: inline-block;
-    margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+.checkBtn:hover:not(:disabled),
+.nextBtn:hover,
+.playAgainBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(142, 36, 170, 0.4);
 }
 
 .checkBtn:disabled {
-    background-color: #666;
+    background: linear-gradient(135deg, #666 0%, #777 100%);
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .backBtn,
 .leaderboardBtn {
-    background-color: #1A1B3B;
+    background: transparent;
     border: 1px solid #8E24AA;
+    color: #8E24AA;
+}
+
+.backBtn:hover,
+.leaderboardBtn:hover {
+    background: rgba(142, 36, 170, 0.1);
+    transform: translateY(-2px);
 }
 
 .resultSection {
     text-align: center;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .resultText {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: #8E24AA;
-    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: white;
 }
 
 .resultCard {
-    background-color: #302A6A;
+    background: linear-gradient(145deg, #2A2458 0%, #1F1E3F 100%);
+    border: 1px solid rgba(142, 36, 170, 0.2);
     padding: 40px;
-    border-radius: 16px;
+    border-radius: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.6s ease-out;
+}
+
+.scoreDisplay {
+    margin: 32px 0;
     text-align: center;
 }
 
-.finalScore {
-    margin: 30px 0;
+.scoreValue {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #8E24AA;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
 }
 
-.finalScore h2 {
-    color: #8E24AA;
+.scoreLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.statItem {
+    text-align: center;
+}
+
+.statValue {
+    display: block;
     font-size: 2rem;
-    margin-bottom: 15px;
+    font-weight: 700;
+    color: #8E24AA;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 4px;
+}
+
+.statLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
     .gameArea {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 24px;
     }
 
     .dropZones {
         flex-direction: column;
+    }
+
+    .scenarioCard {
+        padding: 24px;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .checkBtn,
+    .nextBtn,
+    .playAgainBtn,
+    .backBtn,
+    .leaderboardBtn {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
     }
 }

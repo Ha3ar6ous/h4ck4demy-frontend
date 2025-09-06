@@ -1,106 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
 .game {
-    padding: 40px 0;
+    padding: 60px 0;
     min-height: 100vh;
+    /* background: linear-gradient(135deg, #0A0B1E 0%, #1A1B3B 100%); */
+    background: #0d0b42;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.game::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(142, 36, 170, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(142, 36, 170, 0.08) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease-out;
 }
 
 .title {
-    text-align: center;
-    color: #8E24AA;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.highlight {
+    background: linear-gradient(135deg, #8E24AA 0%, #AB47BC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease-in-out infinite;
 }
 
 .subtitle {
-    text-align: center;
-    margin-bottom: 50px;
-    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 .gameGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 32px;
+    margin-bottom: 60px;
 }
 
 .gameCard {
-    background-color: #302A6A;
-    padding: 30px;
-    border-radius: 16px;
-    text-align: center;
+    background: linear-gradient(145deg, #2A2458 0%, #1F1E3F 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(142, 36, 170, 0.2);
+    padding: 32px;
+    border-radius: 20px;
+    text-align: left;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out both;
+}
+
+.gameCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #8E24AA 0%, #AB47BC 100%);
+    transform: scaleX(0);
     transition: transform 0.3s ease;
+    transform-origin: left;
+}
+
+.gameCard:hover::before {
+    transform: scaleX(1);
 }
 
 .gameCard:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(142, 36, 170, 0.3);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.gameIcon {
+    font-size: 2rem;
+    padding: 12px;
+    background: rgba(142, 36, 170, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(142, 36, 170, 0.2);
 }
 
 .gameTitle {
-    color: #8E24AA;
+    color: #ffffff;
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    font-weight: 600;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .gameDescription {
-    margin-bottom: 25px;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 28px;
 }
 
 .gameInfo {
-    margin-bottom: 25px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .infoItem {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
-    padding: 8px 0;
+    align-items: center;
+    padding: 12px 0;
 }
 
 .label {
-    font-weight: bold;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background: #8E24AA;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.difficultyBadge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .value {
     color: #8E24AA;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
 }
 
 .playBtn {
-    background-color: #8E24AA;
+    background: linear-gradient(135deg, #8E24AA 0%, #AB47BC 100%);
     color: white;
     text-decoration: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: bold;
-    display: inline-block;
-    transition: all 0.3s ease;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.playBtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+    transition: left 0.6s ease;
+}
+
+.playBtn:hover::before {
+    left: 100%;
 }
 
 .playBtn:hover {
-    background-color: #1A1B3B;
     transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(142, 36, 170, 0.4);
+}
+
+.btnIcon {
+    transition: transform 0.2s ease;
+}
+
+.playBtn:hover .btnIcon {
+    transform: translateX(2px);
 }
 
 .stats {
     display: flex;
     justify-content: center;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
 }
 
 .statCard {
-    background-color: #302A6A;
-    padding: 25px;
-    border-radius: 12px;
-    text-align: center;
-    min-width: 300px;
+    background: linear-gradient(145deg, #2A2458 0%, #1F1E3F 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(142, 36, 170, 0.2);
+    padding: 32px;
+    border-radius: 20px;
+    min-width: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+.statCard::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(142, 36, 170, 0.05) 50%, transparent 100%);
+    pointer-events: none;
+}
+
+.statHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.statTitle {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.progressRing {
+    position: relative;
+}
+
+.progressCircle {
+    transform: rotate(-90deg);
+}
+
+.statGrid {
+    display: grid;
+    gap: 20px;
+}
+
+.statItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statItem:last-child {
+    border-bottom: none;
+}
+
+.statLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .statValue {
     color: #8E24AA;
-    font-weight: bold;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gameGrid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .title {
+        font-size: 2.25rem;
+    }
+
+    .gameCard {
+        padding: 24px;
+    }
+
+    .statCard {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
 }
