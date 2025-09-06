@@ -83,3 +83,15 @@ client/
 - `react-scripts`
 
 ---
+
+##  Routes avlbl for now directly on the frontend
+
+| Route                | Description                        |
+|----------------------|------------------------------------|
+| `/`                  | Landing Page (Home)                |
+| `/login`             | Login / Username Page              |
+| `/learn`             | Learning Content Page              |
+| `/game`              | Game Selection Page                |
+| `/game/mcq`          | MCQ Game                           |
+| `/game/situational`  | Situational Drag & Drop Game       |
+| `/leaderboard`       | Leaderboard
