@@ -1,0 +1,93 @@
+.login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.loginCard {
+    background-color: #302A6A;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.title {
+    color: #8E24AA;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.form {
+    margin-bottom: 30px;
+}
+
+.inputGroup {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.inputGroup label {
+    display: block;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #1A1B3B;
+    border: 1px solid #8E24AA;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #8E24AA;
+}
+
+.submitBtn {
+    background-color: #8E24AA;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.quickAccess {
+    border-top: 1px solid #1A1B3B;
+    padding-top: 20px;
+}
+
+.quickLinks {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.quickLink {
+    background-color: #1A1B3B;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+}
