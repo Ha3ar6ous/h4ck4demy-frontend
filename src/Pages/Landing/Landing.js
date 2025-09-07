@@ -11,8 +11,7 @@ const Landing = () => {
         <div className={styles.hero}>
           <div className={styles.brandSection}>
             <h1 className={styles.brandName}>
-              H<span className={styles.hackText}>4</span>ck
-              <span className={styles.hackText}>4</span>demy
+              Hackademy
             </h1>
             <div className={styles.tagline}>
               Secure India, One Game at a Time

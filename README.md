@@ -1,18 +1,16 @@
-# H4ck4demy
+# Hackademy
 
 ##  Purpose
 
-The purpose of H4ck4demy is to empower users especially in India : with practical cybersecurity knowledge. By blending education with gamification, the platform aims to:
+The purpose of Hackademy is to empower users especially in India : with practical cybersecurity knowledge. By blending education with gamification, the platform aims to:
 - Raise awareness about online threats and safe practices.
 - Teach password hygiene, safe browsing, and digital identity protection.
 - Encourage healthy competition and continuous learning through leaderboards and achievements.
 
-### Real Purpose 
-College ka miniproject hai isliye bana rha hu, thats it :(
 
 ---
 
-## 🌐 View Live : [Experience H4ck4demy Live](https://h4ck4demy-frontend.vercel.app/)
+## 🌐 View Live : [Experience Hackademy Live](https://h4ck4demy-frontend.vercel.app/)
 
 
 ##  Project Structure
@@ -95,3 +93,33 @@ client/
 | `/game/mcq`          | MCQ Game                           |
 | `/game/situational`  | Situational Drag & Drop Game       |
 | `/leaderboard`       | Leaderboard
+
+
+---
+
+##  Running Locally
+
+Follow these steps to run the project on your local machine:
+
+1. **Clone the repository**
+   ```
+   git clone https://github.com/Ha3ar6ous/h4ck4demy-frontend.git
+   cd h4ck4demy-frontend/client
+   ```
+
+2. **Install dependencies**
+   ```
+   npm install
+   ```
+
+3. **Start the development server**
+   ```
+   npm start
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+
+---
+
+**Note:**  
+- Make sure you have [Node.js](https://nodejs.org/) and npm installed.
