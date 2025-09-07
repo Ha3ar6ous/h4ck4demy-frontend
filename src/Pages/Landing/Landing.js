@@ -113,7 +113,7 @@ const Landing = () => {
         {/* Footer */}
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
-            <p>&copy; 2024 H4ck4demy. All rights reserved.</p>
+            <p>&copy; 2025 H4ck4demy. All rights reserved.</p>
           </div>
         </footer>
       </div>
